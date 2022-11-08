@@ -19,15 +19,35 @@ public class FifoQueue<E> extends AbstractQueue<E> implements Queue<E> {
 	 * 			to this queue, else false
 	 */
 	public boolean offer(E e) {
-		return false;
+		QueueNode<E> newNode = new QueueNode<>(e);
+		if(last == null){
+			newNode.next = newNode;
+
+		}else {
+			newNode.next = last.next;
+			last.next = newNode;
+		}
+		last = newNode;
+
+		return true;
 	}
 	
 	/**	
 	 * Returns the number of elements in this queue
 	 * @return the number of elements in this queue
 	 */
-	public int size() {		
-		return 0;
+	public int size() {
+		if(last == null) return 0;
+		else if(last.next == last) return 1;
+		else{
+			QueueNode<E> current = last;
+			int count = 1;
+			while (current.next != last){
+				count++;
+				current = current.next;
+			}
+			return count;
+		}
 	}
 	
 	/**	
@@ -37,7 +57,8 @@ public class FifoQueue<E> extends AbstractQueue<E> implements Queue<E> {
 	 * 			if this queue is empty
 	 */
 	public E peek() {
-		return null;
+		if(last == null) return null;
+		else return last.next.element;
 	}
 
 	/**	
@@ -46,8 +67,17 @@ public class FifoQueue<E> extends AbstractQueue<E> implements Queue<E> {
 	 * post:	the head of the queue is removed if it was not empty
 	 * @return 	the head of this queue, or null if the queue is empty 
 	 */
-	public E poll() {
-		return null;
+	public E poll()  {
+		if(last == null) return null;
+		else if(last.next == last){
+			E data = last.element;
+			last = null;
+			return data;
+		}else {
+			E data = last.next.element;
+			last.next = last.next.next;
+			return data;
+		}
 	}
 	
 	/**	
@@ -55,7 +85,7 @@ public class FifoQueue<E> extends AbstractQueue<E> implements Queue<E> {
 	 * @return an iterator over the elements in this queue
 	 */	
 	public Iterator<E> iterator() {
-		return null;
+		return new QueueIterator();
 	}
 	
 	private static class QueueNode<E> {
@@ -65,6 +95,33 @@ public class FifoQueue<E> extends AbstractQueue<E> implements Queue<E> {
 		private QueueNode(E x) {
 			element = x;
 			next = null;
+		}
+	}
+	private class QueueIterator implements Iterator<E>{
+		private QueueNode<E> current;
+		private QueueIterator(){
+
+			current = last;
+
+			current = last != null ? last.next : null;
+		}
+		@Override
+		public boolean hasNext() {
+			return current != null;
+		}
+
+		@Override
+		public E next() {
+			if(hasNext()){
+				E data = poll();
+				current = last != null ? last.next : null;
+
+
+				return data;
+
+			}
+			throw new NoSuchElementException();
+
 		}
 	}
 
