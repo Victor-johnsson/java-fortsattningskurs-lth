@@ -103,7 +103,7 @@ public class FifoQueue<E> extends AbstractQueue<E> implements Queue<E> {
 
 			current = last;
 
-			current = last != null ? last.next : null;
+
 		}
 		@Override
 		public boolean hasNext() {
@@ -113,8 +113,10 @@ public class FifoQueue<E> extends AbstractQueue<E> implements Queue<E> {
 		@Override
 		public E next() {
 			if(hasNext()){
-				E data = poll();
-				current = last != null ? last.next : null;
+				E data = current.next.element;
+
+
+				current = current.next != last ? current.next : null;
 
 
 				return data;
@@ -123,6 +125,40 @@ public class FifoQueue<E> extends AbstractQueue<E> implements Queue<E> {
 			throw new NoSuchElementException();
 
 		}
+
+
+	}
+	public void append(FifoQueue<E> queue){
+
+		if(this.equals(queue)) {
+			throw new IllegalArgumentException();
+		}
+		if(this.isEmpty() && queue.isEmpty()){
+			throw new IllegalArgumentException();
+		}
+
+		if(queue.isEmpty() && !this.isEmpty()){
+			//Do Nothing!
+			return;
+		}
+
+		if(this.isEmpty() && !queue.isEmpty()){
+			last = queue.last;
+			queue.last = null;
+			return;
+		}
+
+		if(!this.isEmpty() && !queue.isEmpty()){
+			QueueNode<E> a = last.next;
+			QueueNode<E> d = queue.last.next;
+			last.next = d;
+			queue.last.next =a;
+			last = queue.last;
+			queue.last = null;
+			return;
+		}
+
+
 	}
 
 }

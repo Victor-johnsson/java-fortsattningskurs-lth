@@ -7,6 +7,7 @@ public class FifoQueue<E> extends AbstractQueue<E> implements Queue<E> {
 	public FifoQueue() {
 		super();
 		list = new LinkedList<E>();
+
 	}
 	
 	/**	
