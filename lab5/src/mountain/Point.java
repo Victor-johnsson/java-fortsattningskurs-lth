@@ -39,5 +39,13 @@ public class Point {
 	public int hashCode() {
 	    return  31 * x + y;
 	}
+
+	public static  Point middlePoint(Point one, Point two){
+		int x  = (one.getX() + two.getX())/2;
+		int y = (one.getY() + two.getY()) / 2 ;
+		return  new Point(x, y);
+	}
+
+
 	
 }

@@ -5,10 +5,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import queue_singlelinkedlist.FifoQueue;
 
-import java.io.FileReader;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-import java.util.Queue;
 
 import static org.junit.jupiter.api.Assertions.*;
 

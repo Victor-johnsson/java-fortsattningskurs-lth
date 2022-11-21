@@ -149,14 +149,14 @@ public class FifoQueue<E> extends AbstractQueue<E> implements Queue<E> {
 		}
 
 		if(!this.isEmpty() && !queue.isEmpty()){
-			QueueNode<E> a = last.next;
-			QueueNode<E> d = queue.last.next;
-			last.next = d;
-			queue.last.next =a;
+			QueueNode<E> firstNode = last.next;
+			QueueNode<E> firstNodeFromSecondQueue = queue.last.next;
+			last.next = firstNodeFromSecondQueue;
+			queue.last.next =firstNode;
 			last = queue.last;
-			queue.last = null;
-			return;
 		}
+		queue.last = null;
+		queue.size = 0;
 
 
 	}
