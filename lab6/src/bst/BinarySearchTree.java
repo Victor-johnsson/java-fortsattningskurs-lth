@@ -7,20 +7,27 @@ import java.util.Comparator;
 public class BinarySearchTree<E> {
   BinaryNode<E> root;  // Används också i BSTVisaulizer
   int size;            // Används också i BSTVisaulizer
-  private Comparator<E> ccomparator;
+  private Comparator<E> comparator;
     
 	/**
 	 * Constructs an empty binary search tree.
 	 */
 	public BinarySearchTree() {
-		
+		size =0;
+		root = null;
+		comparator = (e1, e2) -> ((Comparable<E>) e1).compareTo(e2);
+
+
 	}
 	
 	/**
 	 * Constructs an empty binary search tree, sorted according to the specified comparator.
 	 */
 	public BinarySearchTree(Comparator<E> comparator) {
-		
+		size =0;
+
+		root = null;
+		this.comparator = comparator;
 	}
 
 	/**
@@ -29,6 +36,41 @@ public class BinarySearchTree<E> {
 	 * @return true if the the element was inserted
 	 */
 	public boolean add(E x) {
+		if(root == null){
+			root = new BinaryNode<>(x);
+			size++;
+			return true;
+		}else{
+			return add(root,x);
+		}
+
+
+	}
+
+	private boolean add(BinaryNode<E> n, E x){
+
+
+			int i = comparator.compare(x,n.element);
+			if(i < 0){
+				if(n.left == null) {
+					n.left = new BinaryNode<>(x);
+					size++;
+					return  true;
+				}else{
+					return add(n.left,x);
+				}
+			}else if(i>0){
+				if(n.right == null) {
+					size++;
+
+					n.right = new BinaryNode<>(x);
+					return true;
+				}else{
+					return add(n.right,x);
+				}
+			}
+
+
 		return false;
 	}
 	
@@ -37,7 +79,16 @@ public class BinarySearchTree<E> {
 	 * @return the height of the tree
 	 */
 	public int height() {
-		return 0;
+
+		return calculateHeight(root);
+
+
+	}
+	private int calculateHeight(BinaryNode<E> binaryNode){
+		if (binaryNode == null) {
+			return 0;
+		}
+		return 1 + Math.max(calculateHeight(binaryNode.left), calculateHeight(binaryNode.right));
 	}
 	
 	/**
@@ -45,21 +96,32 @@ public class BinarySearchTree<E> {
 	 * @return the number of elements in this tree
 	 */
 	public int size() {
-		return 0;
+
+
+		return size;
 	}
 	
 	/**
 	 * Removes all of the elements from this list.
 	 */
 	public void clear() {
-		
+		root = null;
+		size = 0;
 	}
 	
 	/**
 	 * Print tree contents in inorder.
 	 */
 	public void printTree() {
+		printTree(root);
+	}
 
+	private void printTree(BinaryNode<E> node){
+		if(node != null){
+			printTree(node.left);
+			System.out.println(node.element);
+			printTree(node.right);
+		}
 	}
 
 	/** 
@@ -93,7 +155,9 @@ public class BinarySearchTree<E> {
 
 		private BinaryNode(E element) {
 			this.element = element;
-		}	
+		}
+
+
 	}
 	
 }

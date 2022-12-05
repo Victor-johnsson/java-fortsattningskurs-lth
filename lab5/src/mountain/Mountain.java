@@ -3,7 +3,6 @@ package mountain;
 import fractal.Fractal;
 import fractal.TurtleGraphics;
 
-import java.nio.channels.Pipe;
 import java.util.HashMap;
 
 public class Mountain extends Fractal {
