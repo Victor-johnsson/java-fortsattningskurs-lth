@@ -10,18 +10,19 @@ import static org.junit.jupiter.api.Assertions.*;
 public class BinaryTest {
 
     private BinarySearchTree<Integer> integerBinaryTree;
-    private BinarySearchTree<Integer> secondQueue;
+    private BinarySearchTree secondBinaryTree;
 
     @BeforeEach
     void setUp() {
         integerBinaryTree = new BinarySearchTree<Integer>();
-        secondQueue = new BinarySearchTree<Integer>();
+        secondBinaryTree = new BinarySearchTree((s1,s2)-> s2.toString().length() - s1.toString().length());
+
     }
 
     @AfterEach
     void tearDown(){
         integerBinaryTree = null;
-        secondQueue = null;
+        secondBinaryTree = null;
     }
 
 
@@ -35,6 +36,15 @@ public class BinaryTest {
 
     @Test
     void AddToTree(){
+        secondBinaryTree.add("Hej");
+        secondBinaryTree.add("Tjena");
+        secondBinaryTree.add("Chaos");
+        secondBinaryTree.add("Tests");
+
+        assertEquals(2, secondBinaryTree.size);
+        assertTrue(secondBinaryTree.add("This should be true"));
+        assertFalse(secondBinaryTree.add("False"));
+        assertEquals(3,secondBinaryTree.height());
         integerBinaryTree.add(10);
         integerBinaryTree.add(17);
         integerBinaryTree.add(26);
